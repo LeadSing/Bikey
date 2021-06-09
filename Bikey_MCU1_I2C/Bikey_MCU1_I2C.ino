@@ -144,4 +144,6 @@ void Escribir (){ //Esta es la función que será ejecutada cuando el maestro lo
     ader = rder; 
   }
 
+  Wire.write(mandar, 9); //Envía los 9 datos del arreglo mandar al maestro
+
 }
