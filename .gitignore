@@ -1,3 +1,7 @@
+# Word configs
 *.tmp
 ~$.doc*.doc*
 Backup of *.doc*
+
+# intellij configs
+.idea/
