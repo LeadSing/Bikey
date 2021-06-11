@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLCDNumber" name="lcdNumber">
+  <widget class="QLCDNumber" name="Velocidad">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -36,7 +36,7 @@
     <string>Derecha</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_12">
+  <widget class="QLabel" name="Pal_Lat">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -49,10 +49,10 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Palanca_Lateral.png</pixmap>
+    <pixmap>Palanca_Lateral.png</pixmap>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar_2">
+  <widget class="QProgressBar" name="Combustible">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -93,7 +93,7 @@
     <string>Km/h</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_13">
+  <widget class="QLabel" name="Ind_Neutral">
    <property name="geometry">
     <rect>
      <x>900</x>
@@ -106,7 +106,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Neutral.png</pixmap>
+    <pixmap>Neutral.png</pixmap>
    </property>
   </widget>
   <widget class="QLabel" name="label_16">
@@ -135,7 +135,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLCDNumber" name="lcdNumber_2">
+  <widget class="QLCDNumber" name="RPM">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -169,32 +169,32 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QLabel" name="label_9">
+     <widget class="QLabel" name="Luz_Alta">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Luces_Altas.png</pixmap>
+       <pixmap>Luces_Altas.png</pixmap>
       </property>
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QLabel" name="label_10">
+     <widget class="QLabel" name="Luz_Baja">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Luz_Baja.png</pixmap>
+       <pixmap>Luz_Baja.png</pixmap>
       </property>
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QLabel" name="label_11">
+     <widget class="QLabel" name="Luz_Cuartos">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Luz_Posicion.png</pixmap>
+       <pixmap>Luz_Posicion.png</pixmap>
       </property>
      </widget>
     </item>
@@ -211,72 +211,75 @@
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="5">
-     <widget class="QLabel" name="label_15">
+     <widget class="QLabel" name="Baja_Bat">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Batreía_Baja.png</pixmap>
+       <pixmap>Batreía_Baja.png</pixmap>
       </property>
      </widget>
     </item>
     <item row="0" column="8">
-     <widget class="QLabel" name="label_17">
+     <widget class="QLabel" name="Soon_Service">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Servicio.png</pixmap>
+       <pixmap>Servicio.png</pixmap>
       </property>
      </widget>
     </item>
     <item row="0" column="7">
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="Filtro_Aire">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Fitlro_Aire.png</pixmap>
+       <pixmap>Fitlro_Aire.png</pixmap>
       </property>
      </widget>
     </item>
     <item row="0" column="3">
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="Temp_Motor">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Temperatura_Motor.png</pixmap>
+       <pixmap>Temperatura_Motor.png</pixmap>
       </property>
      </widget>
     </item>
     <item row="0" column="6">
-     <widget class="QLabel" name="label_14">
+     <widget class="QLabel" name="Check_Engine">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Check_Engine.png</pixmap>
+       <pixmap>Check_Engine.png</pixmap>
       </property>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLabel" name="label_4">
+     <widget class="QLabel" name="Bajo_Aceite">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Presion_Aceite.png</pixmap>
+       <pixmap>Presion_Aceite.png</pixmap>
       </property>
      </widget>
     </item>
     <item row="0" column="0">
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="Baja_Gas">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Gasolina_Baja.png</pixmap>
+       <pixmap>Gasolina_Baja.png</pixmap>
       </property>
      </widget>
     </item>
@@ -285,30 +288,36 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>400</x>
      <y>10</y>
-     <width>239</width>
-     <height>158</height>
+     <width>191</width>
+     <height>91</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="1">
-     <widget class="QLabel" name="label_5">
+     <widget class="QLabel" name="Dir_Izq">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Direccional_Derecha.png</pixmap>
+       <pixmap>Direccional_Izquierda.png</pixmap>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
     <item row="0" column="2">
-     <widget class="QLabel" name="label_6">
+     <widget class="QLabel" name="Dir_Der">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../PycharmProjects/PyQtRecetas/Bikey1/Direccional_Izquierda.png</pixmap>
+       <pixmap>Direccional_Derecha.png</pixmap>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>

@@ -30,7 +30,7 @@ float velocidad     = 0;
 int velocidadRound  = 0;
 int PPR             = 1; //Valor de los pulsos por revolución
 
-byte mandar[5] = {0,0,0,0,0}; //Arreglo de números que será enviado con la comunicación I2C
+byte mandar[] = {0,0,0,0}; //Arreglo de números que será enviado con la comunicación I2C
 
 /**************************** Configuración del microcontrolador ************************/
 
@@ -60,26 +60,25 @@ void Escribir() {
   velocidad = (pi * diametro * rpm * 60)/100; //Obtiene el valor de la velocidad
   velocidadRound = round(velocidad); //Redondea el valor de la velocidad.
   mandar[0] = (byte) (velocidadRound & 0XFF); //Asigna el valor del primer byte de la velocidad a la posición 0 del arreglo mandar
-  mandar[1] = (byte) ((velocidadRound >> 8) & 0XFF); //Asigna el valor del segunda byte de la velocidad a la posición 1 del arreglo mandar
 
   //Obtención del valor de la velocidad
   rtemperatura = digitalRead(temperatura); //Obtiene la lectura digital del valor de la temperatura
   if(atemperatura != rtemperatura){ //Si hay un cambio en el valor de la temperatura
-    mandar[2] = (byte)81; //Se le asigna el valor de 81 (P) a la posición 2 del arreglo a mandar
+    mandar[1] = (byte)79; //Se le asigna el valor de 81 (P) a la posición 2 del arreglo a mandar
   }
 
   //Obtención del valor del sensor de presión aceite
   raceite = digitalRead(aceite); //Obtiene la lectura digital del valor del aceite
   if(aaceite != raceite){ //Si hay un cambio en el valor del aceite
-    mandar[3] = (byte)83; //Asigna el valor de 83 (R) a la posición 3 del arreglo a mandar
+    mandar[2] = (byte)81; //Asigna el valor de 83 (R) a la posición 3 del arreglo a mandar
   }
 
   //Obtención del valor del sensor del filtro de aire
   raire = digitalRead(aire); //Obtiene la lectura digital del valor del aire
   if (aaire != raire){  //Cuando haya un cambio en el valor del aire
-    mandar[4] = (byte)85; //Asigna el valor de 85 (T) a la posición 4 del arreglo a mandar
+    mandar[3] = (byte)83; //Asigna el valor de 85 (T) a la posición 4 del arreglo a mandar
   }
 
-  Wire.write(mandar, 5);
+  Wire.write(mandar, 4);
 }
 
