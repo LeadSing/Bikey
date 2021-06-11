@@ -37,6 +37,9 @@
    </property>
   </widget>
   <widget class="QLabel" name="Pal_Lat">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -50,6 +53,9 @@
    </property>
    <property name="pixmap">
     <pixmap>Palanca_Lateral.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QProgressBar" name="Combustible">
@@ -120,19 +126,6 @@
    </property>
    <property name="text">
     <string>Odometro</string>
-   </property>
-  </widget>
-  <widget class="QTimeEdit" name="timeEdit">
-   <property name="geometry">
-    <rect>
-     <x>750</x>
-     <y>8</y>
-     <width>261</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="calendarPopup">
-    <bool>false</bool>
    </property>
   </widget>
   <widget class="QLCDNumber" name="RPM">
@@ -322,6 +315,19 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLCDNumber" name="lcd_hora">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>30</y>
+     <width>200</width>
+     <height>100</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>
