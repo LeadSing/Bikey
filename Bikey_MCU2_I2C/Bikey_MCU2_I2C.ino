@@ -6,47 +6,41 @@
 
 /*********************** Definición de puertos de I/O **********************************/
 
-const int temperatura   = A0; //Define el puerto A0 como la entrada analógica del sensor de temperatura
-const int revoluciones  = 7; //Define el puerto 7 como la entrada digital del sensor de velocidad
-const int aceite        = A2; //Define el puerto A2 como la entrada analógica del sensor de aceite
-const int aire          = A3; //Define el puerto A3 como la entrada analógica del sensor de aire
+const int temperatura   = 4; //Define el puerto 4 como la entrada analógica del sensor de temperatura
+const int revoluciones  = 5; //Define el puerto 5 como la entrada digital del sensor de velocidad
+const int aceite        = 6; //Define el puerto 6 como la entrada analógica del sensor de aceite
+const int aire          = 7; //Define el puerto 7 como la entrada analógica del sensor de aire
 
 /************************ Declaración de variables auxiliares ********************************/
 
-int temperatura10b  = 0; //Variable en donde será almacenado el valor analógico de 10 bits de la temperatura
-int temperatura8b   = 0; //Variable en donde será almacenado el valor analógico de 8 bits de la temperatura
+int rtemperatura    = HIGH;
+int raceite         = HIGH;
+int raire           = HIGH;
 
-int velocidad10b    = 0; //Variable en donde será almacenado el valor analógico de 10 bits de la velocidad
-int velocidad8b     = 0; //Variable en donde será almacenado el valor analógico de 8 bits de la velocidad
-
-int aceite10b       = 0; //Variable en donde será almacenado el valor analógico de 10 bits del aceite
-int aceite8b        = 0; //Variable en donde será almacenado el valor analógico de 8 bits del aceite
-
-int aire10b         = 0; //Variable en donde será almacenado el valor analógico de 10 bits del aire
-int aire8b          = 0; //Variable en donde será almacenado el valor analógico de 8 bits del aire
-/*
 int atemperatura    = LOW; //Inicializa la variable atemperatura en LOW
-int avelocidad      = LOW; //Inicializa la variable avelocidad en LOW
 int aaceite         = LOW; //Inicializa la variable aaceite en LOW
 int aaire           = LOW; //Inicializa la variable aaire en LOW
-*/
+
 unsigned long duracion;
-unsigned long duracion_maxima;
 float diametro      = 0.254; //Valor del diámetro de la llanta delantera
 float pi            = 3.1416; //Valor de pi
 float frecuencia    = 0;
 float rpm           = 0;
 float velocidad     = 0;
+int velocidadRound  = 0;
 int PPR             = 1; //Valor de los pulsos por revolución
 
-byte mandar[4] = {0,0,0,0}; //Arreglo de números que será enviado con la comunicación I2C
+byte mandar[5] = {0,0,0,0,0}; //Arreglo de números que será enviado con la comunicación I2C
 
 /**************************** Configuración del microcontrolador ************************/
 
 void setup() {
   Wire.begin(Direccion_Esclavo); //Se inicializa la comunicación I2C con este microcontrolador como esclavo con dirección 0X10
 
+  pinMode(temperatura, INPUT_PULLUP);
   pinMode(revoluciones, INPUT_PULLUP);
+  pinMode(aceite, INPUT_PULLUP);
+  pinMode(aire, INPUT_PULLUP);
 
   Wire.onRequest(Escribir); //Se ejecutará la función Escritura cada vez que el maestro lo pida
 }
@@ -61,42 +55,31 @@ void Escribir() {
   
   //Obtención del valor de la velocidad
   duracion = pulseIn(revoluciones, HIGH);
-  frecuencia = 1/duracion;
+  frecuencia = 1.0/duracion;
   rpm = (frecuencia*60)/PPR;
-  velocidad = (pi * diametro * rpm * 60)/100;
-  velocidad10b = round(velocidad); //Obtiene el valor de velocidad 
-  mandar[0] = (byte)velocidad10b; //Asigna el valor de velocidad 10b a la posición 0 del arreglo mandar
+  velocidad = (pi * diametro * rpm * 60)/100; //Obtiene el valor de la velocidad
+  velocidadRound = round(velocidad); //Redondea el valor de la velocidad.
+  mandar[0] = (byte) (velocidadRound & 0XFF); //Asigna el valor del primer byte de la velocidad a la posición 0 del arreglo mandar
+  mandar[1] = (byte) ((velocidadRound >> 8) & 0XFF); //Asigna el valor del segunda byte de la velocidad a la posición 1 del arreglo mandar
 
   //Obtención del valor de la velocidad
-  temperatura10b = analogRead(temperatura); //Obtiene el valor analógico de la temperatura
-  temperatura8b = map(temperatura10b, 0, 1024, 0, 255); //Lo convierte a un valor de 8 bits
-  if(temperatura10b <= 164){ //Si la temperatura está debajo de un umbral
-    mandar[1] = (byte)250; //La temperatura del motor es muy elevada
-  }
-  else{
-    mandar[1] = (byte)5; //La temperatura dle motor es adecuada
+  rtemperatura = digitalRead(temperatura); //Obtiene la lectura digital del valor de la temperatura
+  if(atemperatura != rtemperatura){ //Si hay un cambio en el valor de la temperatura
+    mandar[2] = (byte)81; //Se le asigna el valor de 81 (P) a la posición 2 del arreglo a mandar
   }
 
   //Obtención del valor del sensor de presión aceite
-  aceite10b = analogRead(aceite);
-  aceite8b = map(aceite10b, 0, 1024, 0, 255);
-  if(aceite10b <= 164){
-    mandar [2] = (byte)250;
-  }
-  else{
-    mandar[2] = (byte)5;
+  raceite = digitalRead(aceite); //Obtiene la lectura digital del valor del aceite
+  if(aaceite != raceite){ //Si hay un cambio en el valor del aceite
+    mandar[3] = (byte)83; //Asigna el valor de 83 (R) a la posición 3 del arreglo a mandar
   }
 
   //Obtención del valor del sensor del filtro de aire
-  aire10b = analogRead(aire);
-  aceite8b = map(aceite10b, 0, 1024, 0, 255);
-  if (aire10b <= 164){
-    mandar[3] = (byte)250;
-  }
-  else{
-    mandar[3] = (byte)5;
+  raire = digitalRead(aire); //Obtiene la lectura digital del valor del aire
+  if (aaire != raire){  //Cuando haya un cambio en el valor del aire
+    mandar[4] = (byte)85; //Asigna el valor de 85 (T) a la posición 4 del arreglo a mandar
   }
 
-  Wire.write(mandar, 4);
+  Wire.write(mandar, 5);
 }
 
