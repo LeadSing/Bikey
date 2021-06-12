@@ -4,14 +4,28 @@ import time #Importa la librería time
 import threading #Importa la librería threading que permite establecer los threads
 from smbus2 import SMBus #Importa la librería smbus2 que permite establecer la comunicación I2C
 from Bikey_UI import * #Importa todos los elementos del archivo Bikey_UI
+import marshal
 
 class MyForm(QDialog): #Creación de la clase MyForm que hereda de la clase QDialog
     def __init__(self): #Creación del contruscor por defecto de la clase MyForm
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
+
+        '''Inicialización del lcd que muestra la hora'''
+
+        timer = QtCore.QTimer(self)
+        timer.timeout.connect(self.showlcd)
+        timer.start(1000)
+
         self.show()
 
+    '''Función que muestra la hora '''
+
+    def showlcd(self):
+        time = QtCore.QTime.currentTime()
+        text = time.toString('hh:mm')
+        self.ui.lcd_hora.display(text)
 
 class MyThread(threading.Thread): #Creación de la clase que tiene el thread que hereda de la clase threading.Thread
     bus = SMBus(1) #Inicializa la comunicación I2C
@@ -47,14 +61,29 @@ class MyThread(threading.Thread): #Creación de la clase que tiene el thread que
         contao = 0
         contaq = 0
         contas = 0
+        tiempo = 0.1
 
+        Leer = open('distancia.txt', 'rb') #Abre el archivo distancia.txt que contiene el valor del odómetro
+        odometro = marshal.load(Leer) #Lee el valor del odómetro guardado
+        Leer.close() #Cierra el archivo
 
         while 1:
-            time.sleep(0.1) #Espera 100 milisegundos
+            time.sleep(tiempo) #Espera 100 milisegundos
             self.datos_MCU1 = self.bus.read_i2c_block_data(self.addr_MCU1, 0, 8) #Pide 8 bloques de datos al primer esclavo
             self.datos_MCU2 = self.bus.read_i2c_block_data(self.addr_MCU1,0,4) #Pide 4 bloques de datos al segundo esclavo
+
             self.w.ui.Combustible.setValue(self.datos_MCU1[0]) #Cambia el valor del indicador de gasolina
-            self.w.ui.Velocidad.setValue(self.datos_MCU2[0]) #Cambia el valor del indicador de la velocidad
+            self.w.ui.Velocidad.display(self.datos_MCU2[0]) #Cambia el valor del indicador de la velocidad
+
+            self.w.ui.label_16.display(odometro) #Imprime el valor del odómetro
+
+            velocidad = self.datos_MCU2[0]
+            distancia = velocidad/tiempo #Calcula la distancia recorrida
+            odometro += distancia #Acumula el valor anterior del odómetro con el de la distancia
+
+            Escribir = open('distancia.txt', 'wb')
+            marshal.dump(odometro, Escribir)  #Escribe el contenido actualizado del odómetro en el archivo Escribir.txt
+            Escribir.close()
 
             if self.datos_MCU1[1] == 65: #Cuando llega el dato esperado
                 self.w.ui.Luz_Cuartos.show() #Enciende el indicador de las luces cuartas
@@ -128,9 +157,16 @@ class MyThread(threading.Thread): #Creación de la clase que tiene el thread que
                 self.w.ui.Filtro_Aire.hide()
                 contas = 0
 
-            else:
-                print("Valores no reconocibles")
+            if odometro >= 6000:
+                self.w.ui.Soon_Service.show()
+            elif odometro <6000:
+                self.w.ui.Soon_Service.hide()
 
+            if self.datos_MCU1[0] <= 20:
+                self.w.ui.Baja_Gas.show()
+            elif self.datos_MCU1[0] >20:
+                self.w.ui.Baja_Gas.hide()
+            
             print("Finishing " + self.name)
 
 if __name__ == "__main__":

@@ -21,11 +21,11 @@ int atemperatura    = LOW; //Inicializa la variable atemperatura en LOW
 int aaceite         = LOW; //Inicializa la variable aaceite en LOW
 int aaire           = LOW; //Inicializa la variable aaire en LOW
 
-unsigned long duracion;
+unsigned long periodo;
 float diametro      = 0.254; //Valor del diámetro de la llanta delantera
 float pi            = 3.1416; //Valor de pi
-float frecuencia    = 0;
-float rpm           = 0;
+float radio         = diametro/2;
+float velocidadangular = 0;
 float velocidad     = 0;
 int velocidadRound  = 0;
 int PPR             = 1; //Valor de los pulsos por revolución
@@ -54,10 +54,9 @@ void loop() {}
 void Escribir() {
   
   //Obtención del valor de la velocidad
-  duracion = pulseIn(revoluciones, HIGH);
-  frecuencia = 1.0/duracion;
-  rpm = (frecuencia*60)/PPR;
-  velocidad = (pi * diametro * rpm * 60)/100; //Obtiene el valor de la velocidad
+  periodo = pulseIn(revoluciones, HIGH);
+  velocidadangular = (2*pi)/periodo;
+  velocidad = radio * velocidadangular; //Obtiene el valor de la velocidad
   velocidadRound = round(velocidad); //Redondea el valor de la velocidad.
   mandar[0] = (byte) (velocidadRound & 0XFF); //Asigna el valor del primer byte de la velocidad a la posición 0 del arreglo mandar
 
