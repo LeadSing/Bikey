@@ -4,8 +4,6 @@
 
 /************************ Definición de puertos I/O **************************/
 
-//const int int1    = 2; //Define el puerto 2 como la entrada de la interrupción 1
-//const int int2    = 3; //define el puerto 3 como la entrada de la interrupción 2
 const int cuarto  = 4; //Define el puerto 4 como la entrada de los cuartos
 const int baja    = 5; //Define el puerto 5 como la entrada de la luz baja
 const int alta    = 6; //Define el puerto 6 como la entrada de la luz alta

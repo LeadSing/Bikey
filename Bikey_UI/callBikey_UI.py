@@ -166,7 +166,7 @@ class MyThread(threading.Thread): #Creación de la clase que tiene el thread que
                 self.w.ui.Baja_Gas.show()
             elif self.datos_MCU1[0] >20:
                 self.w.ui.Baja_Gas.hide()
-            
+
             print("Finishing " + self.name)
 
 if __name__ == "__main__":
