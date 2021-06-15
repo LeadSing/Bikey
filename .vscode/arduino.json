@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "programmer": "arduino:avrisp",
+    "sketch": "Bikey_MCU2_I2C\\Bikey_MCU2_I2C.ino",
+    "output": "../build"
+}
